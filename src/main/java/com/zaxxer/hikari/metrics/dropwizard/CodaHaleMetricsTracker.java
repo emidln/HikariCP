@@ -18,6 +18,9 @@ package com.zaxxer.hikari.metrics.dropwizard;
 
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
@@ -36,6 +39,8 @@ public final class CodaHaleMetricsTracker implements IMetricsTracker
    private final Meter connectionTimeoutMeter;
    private final MetricRegistry registry;
 
+   private static final Logger logger = LoggerFactory.getLogger(CodaHaleMetricsTracker.class);
+
    private static final String METRIC_CATEGORY = "pool";
    private static final String METRIC_NAME_WAIT = "Wait";
    private static final String METRIC_NAME_USAGE = "Usage";
@@ -53,7 +58,9 @@ public final class CodaHaleMetricsTracker implements IMetricsTracker
 	   // throwing given that register is void to begin with.
 	   try {
 		   registry.register(name, metric);
-	   } catch (IllegalArgumentException e) {}
+	   } catch (IllegalArgumentException e) {
+		   logger.warn("Metric %s already exists!", name);
+	   }
    }
 
    public CodaHaleMetricsTracker(final String poolName, final PoolStats poolStats, final MetricRegistry registry)
