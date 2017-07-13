@@ -1,3 +1,5 @@
+
+<h1> This is a fork that I use and upload to Clojars. Any bugs are probably mine. You should probably not use this. </h1>
 <h1><img src="https://github.com/brettwooldridge/HikariCP/wiki/Hikari.png"> HikariCP<sup><sup>&nbsp;It's Faster.</sup></sup><sub><sub><sup>Hi·ka·ri [hi·ka·'lē] &#40;*Origin: Japanese*): light; ray.</sup></sub></sub></h1><br>
 
 [![][Build Status img]][Build Status]

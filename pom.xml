@@ -25,24 +25,32 @@
       <junit.version>4.12</junit.version>
    </properties>
 
+   <distributionManagement>
+	   <repository>
+		   <id>clojars</id>
+		   <name>Clojars repository</name>
+		   <url>https://clojars.org/repo</url>
+	   </repository>
+   </distributionManagement>
+
    <groupId>com.emidln</groupId>
-   <artifactId>HikariCP</artifactId>
+   <artifactId>hikaricp-fork</artifactId>
    <version>2.6.4-SNAPSHOT</version>
    <packaging>bundle</packaging>
 
-   <name>HikariCP</name>
+   <name>hikaricp-fork</name>
    <description>Ultimate JDBC Connection Pool</description>
-   <url>https://github.com/brettwooldridge/HikariCP</url>
+   <url>https://github.com/emidln/HikariCP</url>
 
    <organization>
-      <name>Zaxxer.com</name>
-      <url>https://github.com/brettwooldridge</url>
+      <name>emidln.com</name>
+      <url>https://github.com/emidln</url>
    </organization>
 
    <scm>
-      <connection>scm:git:git@github.com:brettwooldridge/HikariCP.git</connection>
-      <developerConnection>scm:git:git@github.com:brettwooldridge/HikariCP.git</developerConnection>
-      <url>git@github.com:brettwooldridge/HikariCP.git</url>
+      <connection>scm:git:git@github.com:emidln/HikariCP.git</connection>
+      <developerConnection>scm:git:git@github.com:emidln/HikariCP.git</developerConnection>
+      <url>git@github.com:emidln/HikariCP.git</url>
       <tag>HEAD</tag>
    </scm>
 
@@ -300,7 +308,7 @@
             <configuration>
                <classifier>${artifact.classifier}</classifier>
                <instructions>
-                  <Bundle-Name>HikariCP</Bundle-Name>
+                  <Bundle-Name>hikaricp-fork</Bundle-Name>
                   <Export-Package>
                      com.zaxxer.hikari,
                      com.zaxxer.hikari.hibernate,
@@ -362,7 +370,7 @@
                <version>${maven.release.version}</version>
                <configuration>
                   <autoVersionSubmodules>true</autoVersionSubmodules>
-                  <tagNameFormat>HikariCP-@{project.version}</tagNameFormat>
+                  <tagNameFormat>hikaricp-fork-@{project.version}</tagNameFormat>
                </configuration>
             </plugin>
 
