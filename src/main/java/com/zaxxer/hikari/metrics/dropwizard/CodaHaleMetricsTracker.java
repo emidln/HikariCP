@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
+import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import com.zaxxer.hikari.metrics.IMetricsTracker;
@@ -45,6 +46,12 @@ public final class CodaHaleMetricsTracker implements IMetricsTracker
    private static final String METRIC_NAME_ACTIVE_CONNECTIONS = "ActiveConnections";
    private static final String METRIC_NAME_PENDING_CONNECTIONS = "PendingConnections";
 
+   private static void registerMetric(MetricRegistry registry, String name, Metric metric) {
+	   try {
+		   registry.register(name, metric);
+	   } catch (IllegalArgumentException e) {}
+   }
+
    public CodaHaleMetricsTracker(final String poolName, final PoolStats poolStats, final MetricRegistry registry)
    {
       this.poolName = poolName;
@@ -54,37 +61,45 @@ public final class CodaHaleMetricsTracker implements IMetricsTracker
       this.connectionCreation = registry.histogram(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_CONNECT));
       this.connectionTimeoutMeter = registry.meter(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_TIMEOUT_RATE));
 
-      registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_TOTAL_CONNECTIONS),
-                        new Gauge<Integer>() {
-                           @Override
-                           public Integer getValue() {
-                              return poolStats.getTotalConnections();
-                           }
-                        });
+      CodaHaleMetricsTracker.registerMetric(
+		      registry,
+		      MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_TOTAL_CONNECTIONS),
+		      new Gauge<Integer>() {
+			      @Override
+			      public Integer getValue() {
+				      return poolStats.getTotalConnections();
+			      }
+		      });
 
-      registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_IDLE_CONNECTIONS),
-                        new Gauge<Integer>() {
-                           @Override
-                           public Integer getValue() {
-                              return poolStats.getIdleConnections();
-                           }
-                        });
+      CodaHaleMetricsTracker.registerMetric(
+		      registry,
+		      MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_IDLE_CONNECTIONS),
+		      new Gauge<Integer>() {
+			      @Override
+			      public Integer getValue() {
+				      return poolStats.getIdleConnections();
+			      }
+		      });
 
-      registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_ACTIVE_CONNECTIONS),
-                        new Gauge<Integer>() {
-                           @Override
-                           public Integer getValue() {
-                              return poolStats.getActiveConnections();
-                           }
-                        });
+      CodaHaleMetricsTracker.registerMetric(
+		      registry,
+		      MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_ACTIVE_CONNECTIONS),
+		      new Gauge<Integer>() {
+			      @Override
+			      public Integer getValue() {
+				      return poolStats.getActiveConnections();
+			      }
+		      });
 
-      registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_PENDING_CONNECTIONS),
-                        new Gauge<Integer>() {
-                           @Override
-                           public Integer getValue() {
-                              return poolStats.getPendingThreads();
-                           }
-                        });
+      CodaHaleMetricsTracker.registerMetric(
+		      registry,
+		      MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_PENDING_CONNECTIONS),
+		      new Gauge<Integer>() {
+			      @Override
+			      public Integer getValue() {
+				      return poolStats.getPendingThreads();
+			      }
+		      });
    }
 
    /** {@inheritDoc} */
