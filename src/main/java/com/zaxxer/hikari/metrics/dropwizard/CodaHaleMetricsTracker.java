@@ -47,6 +47,10 @@ public final class CodaHaleMetricsTracker implements IMetricsTracker
    private static final String METRIC_NAME_PENDING_CONNECTIONS = "PendingConnections";
 
    private static void registerMetric(MetricRegistry registry, String name, Metric metric) {
+	   // swallow exceptions that occur because the name is already configured.
+	   // registering via .timer/meter/histogram() does this via a private method
+	   // and it's super unfortunate that there isn't a public way to register without
+	   // throwing given that register is void to begin with.
 	   try {
 		   registry.register(name, metric);
 	   } catch (IllegalArgumentException e) {}
